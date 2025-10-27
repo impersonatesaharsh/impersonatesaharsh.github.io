@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Impersonate Me!</title>
+    <style>
+      body {
+        background-image: url("https://asset-cdn.schoology.com/system/files/imagecache/profile_big/pictures/picture-c0b09cdead19788fb0f8be0d53b5c572_68c34cd700b90.jpg");
+        background-size: 50px;
+        transition: 1s;
+        overflow: hidden;
+      }
+      div.main-container {
+        background-color: #eee;
+        width: 80%;
+        height: 80%;
+        position: absolute;
+        left: 10%;
+        top: 10%;
+        text-align: center;
+      }
+      .sendbar-container {
+        display: flex;
+        justify-content: center;
+      }
+      textarea#message {
+        width: 80%;
+        resize: none;
+      }
+      #sendBtn {
+        background-color: #ccc;
+        border-radius: 50%;
+        width: 5%;
+        aspect-ratio: 1/1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 0;
+        margin: 10px;
+        transition: 0.3s;
+      }
+      #sendBtn:hover {
+        background-color: #bbb;
+        transition: 0.3s;
+      }
+      svg.send {
+        width: 80%;
+        height: 80%;
+      }
+      #output {
+        text-align: left;
+        padding-left: calc(5% + 10px);
+        white-space: pre-wrap;
+        width: 80%;
+        overflow: hidden;
+      }
+      .overlay {
+        background-color: #000000;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: none;
+        transition: 1s;
+        display: none;
+      }
+      
+      @keyframes rotateAnimation {
+        0% {transform: rotate(0deg)}
+        100% {transform: rotate(360deg)}
+      }
+      
+      #customCursor {
+        object-fit: cover;
+        width: 50px;
+        height: 50px;
+        animation: rotateAnimation 1s cubic-bezier(0.58, 0, 0.42, 1) 0s infinite forwards;
+      }
+      .overlay.overlayShown {
+        display: block !important;
+        transition: 1s;
+      } 
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <h1 style="margin-bottom:0">Impersonate Me!</h1>
+      <sub>Webhooks are hard-coded<!-- and are in the source code! You can steal them!-->. If they are removed, this will not work.</sub>
+      <div class="sendbar-container">
+        <textarea id="message" placeholder="Enter message here"></textarea>
+        <button id="sendBtn">
+          <!-- License: CC Attribution. Made by salesforce: https://lightningdesignsystem.com/ -->
+          <svg class="send" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
+          <path d="M2.1,44.5l4.4-16.3h18.6c0.5,0,1-0.5,1-1v-2c0-0.5-0.5-1-1-1H6.5l-4.3-16l0,0C2.1,8,2,7.7,2,7.4
+            C2,6.7,2.7,6,3.5,6.1c0.2,0,0.3,0.1,0.5,0.1l0,0l0,0l0,0l45,18.5c0.6,0.2,1,0.8,1,1.4s-0.4,1.1-0.9,1.3l0,0L4,46.4l0,0
+            c-0.2,0.1-0.4,0.1-0.6,0.1C2.6,46.4,2,45.8,2,45C2,44.8,2,44.7,2.1,44.5L2.1,44.5z"/>
+          </svg>
+        </button>
+      </div>
+      <pre id="output">Debug logs will appear here.</pre>
+    </div>
+    <div class="overlay" id="overlay">
+      <img id="customCursor" src="https://asset-cdn.schoology.com/system/files/imagecache/profile_big/pictures/picture-c0b09cdead19788fb0f8be0d53b5c572_68c34cd700b90.jpg">
+    </div>
+    <script>Q34345345356=1;addEventListener("error",(e)=>{if(Q34345345356){Q34345345356=0;alert(`${e.message} ${e.lineno}`)}})</script>
+    <script>
+      (function() {
+          let webhooks = ["https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=KAUKgX2ofJofjQmAWs4zhQgBQxyubP_6sijfl58V-m0","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=qv7b0iAVxkvvH26otabUeEOFowFP2y-PETSYcunQiW0","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=iMoPEXu6tUgZYUf7w2WkbfRhwAEj3YRbsJQyR0NFJJY","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=cn_vXqcu24fqz1Mo4spfJOOglMMdbb9hGX_x5UyINNc","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=e0mmapGQQwDDwVP29aF8EGyOs2bXuOpFNOZjubvfExE","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=EiNG_R2mjwlJNXKuyyYAHMNEw5Gu6VnWaFNuVd3ODAk","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=F35JEWgvK8bVRbf2KsfS18NjBfMzSqhJpoyEvZQMYkU","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=cAVCmLJJbZlnUY-GZrVGPV1Y__6CJitBOLRKxFyfQWg","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=3XlLvB9YFATyeyzF0HkortThhQjl0FtlLaGj-vDFucU","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=ekpJX9O3NexTwQGLcm56B2G2LaTRZcvLjw7qcNzd78U"]
+          let textarea = document.getElementById("message")
+          let customCursor = document.getElementById("customCursor")
+          let output = document.getElementById("output")
+          let overlay = document.getElementById("overlay")
+          
+          function outputLog(message) {
+            let element = document.createElement("p")
+            element.innerText = message
+            output.insertBefore(element, output.firstChild)
+          }
+          function sendMessage () {
+            overlay.classList.add("overlayShown")
+            outputLog(`Sending message: "${textarea.value.slice(0,50)}${textarea.value.length > 50?"...":""}"`)
+            let webhook = webhooks[Math.floor(Math.random()*webhooks.length)]
+            let lastSendTime = localStorage.getItem("lastSendTime-IMPERSONATEME-saharsh-monkey.github.io")
+            if (lastSendTime == null) lastSendTime = 0
+            if (Date.now() - lastSendTime < 2000) {  // stops the "average person" from spamming
+              setTimeout(() => {
+                outputLog(`An error occurred. Please resend the message`)
+                overlay.classList.remove("overlayShown")
+              },2000)
+              return
+            }
+            localStorage.setItem("lastSendTime-IMPERSONATEME-saharsh-monkey.github.io",Date.now())
+            
+            setTimeout(() => {
+              fetch(webhook, {
+                method: "post",
+                "headers": {"Content-Type": "application/json; charset=UTF-8"},
+                "body": JSON.stringify({"text": textarea.value})
+              }).then((e) => {
+                e.json().then((e) => {
+                  outputLog(`Message sent: ${JSON.stringify(e)}`)
+                  overlay.classList.remove("overlayShown")
+                }).catch((e) => {
+                  outputLog(`Message failed with error: ${e}\n${JSON.stringify(e)}`)
+                  overlay.classList.remove("overlayShown")
+                })
+              }).catch((e) => {
+                outputLog(`Message failed with error: ${e}\n${JSON.stringify(e)}`)
+                overlay.classList.remove("overlayShown")
+              })
+            },2000) // stops the "average person" from spamming
+          }
+          document.getElementById("sendBtn").addEventListener("click", sendMessage)
+          addEventListener("mousemove", (e) => {
+            customCursor.style = `position: absolute;top: ${e.clientY-25}px;left: ${e.clientX-25}px`
+          }, {passive: true})
+      })
+    </script>
+  </body>
+</html>
