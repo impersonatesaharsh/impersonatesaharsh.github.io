@@ -124,11 +124,11 @@
             let webhook = webhooks[Math.floor(Math.random()*webhooks.length)]
             let lastSendTime = localStorage.getItem("lastSendTime-IMPERSONATEME-saharsh-monkey.github.io")
             if (lastSendTime == null) lastSendTime = 0
-            if (Date.now() - lastSendTime < 2000) {  // stops the "average person" from spamming
+            if (Date.now() - lastSendTime < 4900) {  // stops the "average person" from spamming
               setTimeout(() => {
                 outputLog(`An error occurred. Please resend the message`)
                 overlay.classList.remove("overlayShown")
-              },2000)
+              },5000)
               return
             }
             localStorage.setItem("lastSendTime-IMPERSONATEME-saharsh-monkey.github.io",Date.now())
@@ -150,7 +150,7 @@
                 outputLog(`Message failed with error: ${e}\n${JSON.stringify(e)}`)
                 overlay.classList.remove("overlayShown")
               })
-            },2000) // stops the "average person" from spamming
+            },5000) // stops the "average person" from spamming
           }
           document.getElementById("sendBtn").addEventListener("click", sendMessage)
           addEventListener("mousemove", (e) => {
