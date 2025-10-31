@@ -23,11 +23,11 @@
         display: flex;
         justify-content: center;
       }
-      textarea#message {
+      textarea.message {
         width: 80%;
         resize: none;
       }
-      #sendBtn {
+      .sendBtn {
         background-color: #ccc;
         border-radius: 50%;
         width: 5%;
@@ -39,7 +39,7 @@
         margin: 10px;
         transition: 0.3s;
       }
-      #sendBtn:hover {
+      .sendBtn:hover {
         background-color: #bbb;
         transition: 0.3s;
       }
@@ -89,8 +89,8 @@
       <h1 style="margin-bottom:0">Impersonate Me!</h1>
       <sub>Webhooks are hard-coded<!-- and are in the source code! You can steal them!-->. If they are removed, this will not work.</sub>
       <div class="sendbar-container">
-        <textarea id="message" placeholder="Enter message here"></textarea>
-        <button id="sendBtn">
+        <textarea id="message" placeholder="Enter message here" class="message"></textarea>
+        <button id="sendBtn" class="sendBtn">
           <!-- License: CC Attribution. Made by salesforce: https://lightningdesignsystem.com/ -->
           <svg class="send" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
           <path d="M2.1,44.5l4.4-16.3h18.6c0.5,0,1-0.5,1-1v-2c0-0.5-0.5-1-1-1H6.5l-4.3-16l0,0C2.1,8,2,7.7,2,7.4
@@ -99,6 +99,20 @@
           </svg>
         </button>
       </div>
+      <details style="text-align: left; margin-left: calc(5% + 10px)">
+        <summary>Advanced</summary>
+        <div class="sendbar-container">
+          <textarea id="advancedMessage" placeholder="Enter JSON here"  class="message"></textarea>
+          <button id="advancedSendBtn" class="sendBtn">
+            <!-- License: CC Attribution. Made by salesforce: https://lightningdesignsystem.com/ -->
+            <svg class="send" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
+            <path d="M2.1,44.5l4.4-16.3h18.6c0.5,0,1-0.5,1-1v-2c0-0.5-0.5-1-1-1H6.5l-4.3-16l0,0C2.1,8,2,7.7,2,7.4
+              C2,6.7,2.7,6,3.5,6.1c0.2,0,0.3,0.1,0.5,0.1l0,0l0,0l0,0l45,18.5c0.6,0.2,1,0.8,1,1.4s-0.4,1.1-0.9,1.3l0,0L4,46.4l0,0
+              c-0.2,0.1-0.4,0.1-0.6,0.1C2.6,46.4,2,45.8,2,45C2,44.8,2,44.7,2.1,44.5L2.1,44.5z"/>
+            </svg>
+          </button>
+        </div>
+      </details>
       <pre id="output">Debug logs will appear here.</pre>
     </div>
     <div class="overlay" id="overlay">
@@ -109,6 +123,7 @@
       (function() {
           let webhooks = ["https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=KAUKgX2ofJofjQmAWs4zhQgBQxyubP_6sijfl58V-m0","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=qv7b0iAVxkvvH26otabUeEOFowFP2y-PETSYcunQiW0","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=iMoPEXu6tUgZYUf7w2WkbfRhwAEj3YRbsJQyR0NFJJY","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=cn_vXqcu24fqz1Mo4spfJOOglMMdbb9hGX_x5UyINNc","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=e0mmapGQQwDDwVP29aF8EGyOs2bXuOpFNOZjubvfExE","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=EiNG_R2mjwlJNXKuyyYAHMNEw5Gu6VnWaFNuVd3ODAk","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=F35JEWgvK8bVRbf2KsfS18NjBfMzSqhJpoyEvZQMYkU","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=cAVCmLJJbZlnUY-GZrVGPV1Y__6CJitBOLRKxFyfQWg","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=3XlLvB9YFATyeyzF0HkortThhQjl0FtlLaGj-vDFucU","https://chat.googleapis.com/v1/spaces/AAQAQ54n8xc/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=ekpJX9O3NexTwQGLcm56B2G2LaTRZcvLjw7qcNzd78U"]
           let textarea = document.getElementById("message")
+          let advancedtextarea = document.getElementById("advancedMessage")
           let customCursor = document.getElementById("customCursor")
           let output = document.getElementById("output")
           let overlay = document.getElementById("overlay")
@@ -118,9 +133,13 @@
             element.innerText = message
             output.insertBefore(element, output.firstChild)
           }
-          function sendMessage () {
+          function sendMessage (jsondata, advanced=false) {
             overlay.classList.add("overlayShown")
-            outputLog(`Sending message: "${textarea.value.slice(0,50)}${textarea.value.length > 50?"...":""}"`)
+            if (advanced) {
+              outputLog("Sending JSON message")
+            } else {
+              outputLog(`Sending message: "${textarea.value.slice(0,50)}${textarea.value.length > 50?"...":""}"`)
+            }
             let webhook = webhooks[Math.floor(Math.random()*webhooks.length)]
             let lastSendTime = localStorage.getItem("lastSendTime-IMPERSONATEME-saharsh-monkey.github.io")
             if (lastSendTime == null) lastSendTime = 0
@@ -137,7 +156,7 @@
               fetch(webhook, {
                 method: "post",
                 "headers": {"Content-Type": "application/json; charset=UTF-8"},
-                "body": JSON.stringify({"text": textarea.value})
+                "body": JSON.stringify(jsondata)
               }).then((e) => {
                 e.json().then((e) => {
                   outputLog(`Message sent: ${JSON.stringify(e)}`)
@@ -152,7 +171,16 @@
               })
             },5000) // stops the "average person" from spamming
           }
-          document.getElementById("sendBtn").addEventListener("click", sendMessage)
+          document.getElementById("sendBtn").addEventListener("click", () => {
+            sendMessage({"text": textarea.value})
+          })
+          document.getElementById("advancedSendBtn").addEventListener("click", () => {
+          	try{
+              sendMessage(JSON.parse(advancedtextarea.value), true)
+            } catch (e) {
+              outputLog(`JSON parsing failed with error: ${e}`)
+            }
+          })
           addEventListener("mousemove", (e) => {
             customCursor.style = `position: absolute;top: ${e.clientY-25}px;left: ${e.clientX-25}px`
           }, {passive: true})
